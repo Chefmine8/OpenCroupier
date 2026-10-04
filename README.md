@@ -21,7 +21,7 @@ own smartphone.
 
 | Component | Language | Stack | Role |
 |---|---|---|---|
-| Server & API | Python | FastAPI, SQLite, WebSockets | Accounts, balances, transaction history, sessions, real-time push |
+| Server & API | Go | Chi (or Gin), modernc.org/sqlite, gorilla/websocket | Accounts, balances, transaction history, sessions, real-time push |
 | RFID terminals | C / C++ | Arduino framework, ESP32, MFRC522 (SPI) | Read cards, talk to the server over HTTPS, drive status LEDs |
 | Dealer interface | JavaScript | Web app (framework not decided yet) | Show the balance of the scanned player, enter gains/losses |
 
@@ -62,7 +62,6 @@ Nothing secret is ever displayed on a terminal and card UIDs are never used in U
 
 ## Deployment notes
 
-- Use a **dedicated Wi-Fi router** (no internet needed). University or public networks often enable client isolation or captive portals that break ESP32 communication.
 - SQLite is sufficient for a few hundred players and thousands of transactions.
 
 ## Roadmap
