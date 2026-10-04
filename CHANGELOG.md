@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project README describing the target architecture, pairing flow and security design.
 - Apache License 2.0.
 - Contributing guide (workflow, Conventional Commits, code style, security rules).
-- `ruff` configuration (`pyproject.toml`) with no line length limit.
+
+### Changed
+- Server stack is now Go (Chi on `net/http`) instead of Python/FastAPI.
+- Code style: replaced the Python conventions with a single rule, one purpose per function.
+
+### Removed
+- `ruff` configuration (`pyproject.toml`).
 
 [Unreleased]: https://github.com/Chefmine8/OpenCroupier/commits/main

@@ -13,7 +13,7 @@ Open an issue and include:
 - what you expected and what happened,
 - steps to reproduce,
 - the component concerned (server, terminal firmware, dealer UI),
-- versions and hardware (Python version, ESP32 board, RFID module).
+- versions and hardware (Go version, ESP32 board, RFID module).
 
 Do **not** publish security vulnerabilities in public issues. Email the maintainer instead.
 
@@ -42,7 +42,7 @@ Common scopes: `server`, `firmware`, `ui`.
 
 ## Code style
 
-- **Server (Python)**: PEP 8, type hints, formatted and linted with `ruff` (configured in `pyproject.toml`). **There is no line length limit**, but every other PEP 8 rule (naming, indentation, imports, whitespace, etc.) must be followed. Before each commit run `ruff format .` and `ruff check .`.
+- **All components**: no formatting convention is enforced. The only rule is that every function has one precise purpose; do not write functions that do several unrelated things.
 - **Firmware (C/C++, Arduino)**: no secrets or credentials in source; keep the loop non-blocking where possible.
 - **Dealer UI (JavaScript)**: readable, dependency-light code; large touch-friendly controls.
 

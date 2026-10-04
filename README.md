@@ -21,14 +21,14 @@ own smartphone.
 
 | Component | Language | Stack | Role |
 |---|---|---|---|
-| Server & API | Go | Chi (or Gin), modernc.org/sqlite, gorilla/websocket | Accounts, balances, transaction history, sessions, real-time push |
+| Server & API | Go | Chi (net/http, native HTTPS), modernc.org/sqlite, gorilla/websocket | Accounts, balances, transaction history, sessions, real-time push |
 | RFID terminals | C / C++ | Arduino framework, ESP32, MFRC522 (SPI) | Read cards, talk to the server over HTTPS, drive status LEDs |
 | Dealer interface | JavaScript | Web app (framework not decided yet) | Show the balance of the scanned player, enter gains/losses |
 
 ```mermaid
 flowchart LR
     Card["Player card (UID)"] --> ESP["ESP32 + RFID reader"]
-    ESP -- "HTTPS" --> API["FastAPI server (Debian) + SQLite"]
+    ESP -- "HTTPS" --> API["Go server (Debian) + SQLite"]
     API -- "WebSocket" --> Phone["Dealer smartphone (web UI)"]
     Phone -- "HTTPS" --> API
 ```
@@ -67,7 +67,7 @@ Nothing secret is ever displayed on a terminal and card UIDs are never used in U
 ## Roadmap
 
 - [ ] Define the API contract (scan, assign table, transaction, balance)
-- [ ] Server: FastAPI app, SQLite schema, authentication, WebSockets
+- [ ] Server: Go app, SQLite schema, authentication, WebSockets
 - [ ] Terminal firmware: Wi-Fi, HTTPS, MFRC522, debouncing, status LEDs
 - [ ] Dealer web interface
 - [ ] Admin tooling: account creation, initial balances, transaction history
