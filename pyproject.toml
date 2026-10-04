@@ -1,6 +1,0 @@
-[tool.ruff]
-line-length = 10000
-
-[tool.ruff.lint]
-select = ["E", "W", "F", "I", "N"]
-ignore = ["E501"]
