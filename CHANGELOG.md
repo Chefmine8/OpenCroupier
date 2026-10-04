@@ -13,4 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contributing guide (workflow, Conventional Commits, code style, security rules).
 - `ruff` configuration (`pyproject.toml`) with no line length limit.
 
-[Unreleased]: http://192.168.0.210/Chefmine/opencroupier/-/commits/main
+[Unreleased]: https://github.com/Chefmine8/OpenCroupier/commits/main
