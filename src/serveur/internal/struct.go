@@ -10,10 +10,8 @@ type CreateCustomerRequest struct {
 	Name string `json:"name"`
 	UID  string `json:"uid"`
 }
-
-// SQL
-type Utilisateur struct {
-	ID    int64
-	Nom   string
-	Email string
+type CreateUserRequest struct {
+	UID      string `json:"uid"`
+	UserName string `json:"userName"`
+	Pass     string `json:"pass"`
 }

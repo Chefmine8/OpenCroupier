@@ -11,10 +11,14 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/Chefmine8/OpenCroupier/internal/env"
 )
 
 func Listen(server *http.Server) {
-	log.Println("Serveur HTTPS lancé sur https://localhost:8443")
+	port := env.GetEnvVariable("PORT", "42010")
+	ip := env.GetEnvVariable("HOST_IP", "127.0.0.1")
+	log.Printf("HTTPS server start at https://%s:%s\n", ip, port)
 	err := server.ListenAndServeTLS("server.crt", "server.key")
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Fatalf("Erreur serveur : %v", err)
@@ -26,10 +30,10 @@ func GestionStop(server *http.Server) {
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		log.Fatalf("Échec de l'arrêt forcé : %v", err)
+		log.Fatalf("Force stop issue : %v", err)
 	}
 
-	log.Println("Serveur arrêté proprement.")
+	log.Println("Server properly stopped")
 }
 
 func NewStop() chan os.Signal {
@@ -47,8 +51,9 @@ func NewServer(db *sql.DB) *http.Server {
 		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
 	}
 
+	port := env.GetEnvVariable("PORT", "42010")
 	server := &http.Server{
-		Addr:         ":8443",
+		Addr:         ":" + port,
 		Handler:      r,
 		TLSConfig:    tlsConfig,
 		ReadTimeout:  10 * time.Second,

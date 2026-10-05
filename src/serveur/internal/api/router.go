@@ -33,8 +33,15 @@ func NewApi(db *sql.DB) *chi.Mux {
 		r.Get("/accountValue/{id}", func(w http.ResponseWriter, r *http.Request) {
 			accountValue(w, r)
 		})
-		r.Get("/createAccount", func(w http.ResponseWriter, r *http.Request) {
+	})
+
+	//Account Creation
+	r.Route("/api/create", func(r chi.Router) {
+		r.Get("/createCustomer", func(w http.ResponseWriter, r *http.Request) {
 			createCustomer(db, w, r)
+		})
+		r.Get("/createUser", func(w http.ResponseWriter, r *http.Request) {
+			createUser(db, w, r)
 		})
 	})
 

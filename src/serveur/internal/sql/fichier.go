@@ -18,32 +18,32 @@ func createTable(db *sql.DB) {
 	);`
 
 	if _, err := db.Exec(creerTableSQL); err != nil {
-		log.Fatalf("Erreur création table : %v", err)
+		log.Fatalf("Creation customer table error : %v", err)
 	}
 
 	creerTableSQL = `
 	CREATE TABLE IF NOT EXISTS user (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		nom TEXT NOT NULL,
-		email TEXT UNIQUE NOT NULL,
+		uid TEXT UNIQUE NOT NULL,
+		userName TEXT NOT NULL,
 		password TEXT NOT NULL
 	);`
 
 	if _, err := db.Exec(creerTableSQL); err != nil {
-		log.Fatalf("Erreur création table : %v", err)
+		log.Fatalf("Creation user table error : %v", err)
 	}
 }
 
 func OpenDB() *sql.DB {
 	db, err := sql.Open("sqlite", "user.db")
 	if err != nil {
-		log.Fatalf("Erreur d'ouverture : %v", err)
+		log.Fatalf("Opened error : %v", err)
 	}
 
 	if err := db.Ping(); err != nil {
-		log.Fatalf("Connexion impossible : %v", err)
+		log.Fatalf("Impossible connexion to the db : %v", err)
 	}
-	fmt.Println("Base de données connectée/créée avec succès !")
+	fmt.Println("DB successfully opened !")
 
 	createTable(db)
 	return db

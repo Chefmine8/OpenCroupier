@@ -4,10 +4,13 @@ import (
 	"log"
 
 	"github.com/Chefmine8/OpenCroupier/internal/api"
+	"github.com/Chefmine8/OpenCroupier/internal/env"
 	sqlite "github.com/Chefmine8/OpenCroupier/internal/sql"
 )
 
 func main() {
+	env.NewEnv()
+
 	db := sqlite.OpenDB()
 	defer db.Close()
 	server := api.NewServer(db)
@@ -18,6 +21,6 @@ func main() {
 	}()
 
 	<-stop
-	log.Println("Arrêt du serveur en cours...")
+	log.Println("Server stopping")
 	api.GestionStop(server)
 }
