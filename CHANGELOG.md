@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apache License 2.0.
 - Contributing guide (workflow, Conventional Commits, code style, security rules).
 - `.gitignore` covering Go builds, SQLite databases, TLS keys and secrets, firmware build output and JS tooling.
+- Go HTTP/HTTPS server with TLS support, Chi router middleware, and graceful shutdown handling.
+- SQLite database initialization with automatic creation of `customer` and `user` tables.
+- API endpoints for user and customer creation (`/api/create/createAccount`, `/api/create/createCustomer`) and account value lookup (`/api/gestion/accountValue/{id}`).
+- Environment variable loading (`.env`) for server port and host IP configuration.
 
 ### Changed
 - Server stack is now Go (Chi on `net/http`) instead of Python/FastAPI.
