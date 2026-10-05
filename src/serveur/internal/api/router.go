@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"net/http"
 	"time"
 
@@ -21,7 +22,7 @@ func newRouteur() *chi.Mux {
 	return r
 }
 
-func NewApi() *chi.Mux {
+func NewApi(db *sql.DB) *chi.Mux {
 	r := newRouteur()
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +32,9 @@ func NewApi() *chi.Mux {
 	r.Route("/api/gestion", func(r chi.Router) {
 		r.Get("/accountValue/{id}", func(w http.ResponseWriter, r *http.Request) {
 			accountValue(w, r)
+		})
+		r.Get("/createAccount", func(w http.ResponseWriter, r *http.Request) {
+			createCustomer(db, w, r)
 		})
 	})
 

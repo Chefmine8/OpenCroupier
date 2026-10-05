@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	server := api.NewServer()
-	stop := api.NewStop()
 	db := sqlite.OpenDB()
 	defer db.Close()
+	server := api.NewServer(db)
+	stop := api.NewStop()
 
 	go func() {
 		api.Listen(server)

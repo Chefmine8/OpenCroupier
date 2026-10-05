@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"crypto/tls"
+	"database/sql"
 	"errors"
 	"log"
 	"net/http"
@@ -38,8 +39,8 @@ func NewStop() chan os.Signal {
 	return stop
 }
 
-func NewServer() *http.Server {
-	r := NewApi()
+func NewServer(db *sql.DB) *http.Server {
+	r := NewApi(db)
 
 	tlsConfig := &tls.Config{
 		MinVersion:       tls.VersionTLS12,

@@ -6,6 +6,11 @@ type Response struct {
 	Message string
 }
 
+type CreateCustomerRequest struct {
+	Name string `json:"name"`
+	UID  string `json:"uid"`
+}
+
 // SQL
 type Utilisateur struct {
 	ID    int64
