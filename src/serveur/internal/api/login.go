@@ -11,15 +11,10 @@ import (
 )
 
 func login(db *sql.DB, w http.ResponseWriter, r *http.Request) {
-	var req internal.LoginRequest
-	dec := json.NewDecoder(r.Body)
-	dec.DisallowUnknownFields()
-
-	if err := dec.Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+	req, err := ReadJSON[internal.LoginRequest](w, r)
+	if err != nil {
 		return
 	}
-	defer r.Body.Close()
 
 	isUser, tokenLogin := sqlite.GetUserByUsername(db, req.UserName, req.Password)
 	if !isUser {

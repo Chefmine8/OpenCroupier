@@ -10,7 +10,6 @@ import (
 
 func main() {
 	env.NewEnv()
-
 	db := sqlite.OpenDB()
 	defer db.Close()
 	server := api.NewServer(db)

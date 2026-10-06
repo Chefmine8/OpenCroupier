@@ -38,3 +38,9 @@ type Claims struct {
 	UserName string `json:"userName"`
 	jwt.RegisteredClaims
 }
+
+// Déposite / Withdraw
+type MoneyChange struct {
+	UID    string `json:"uid"`
+	Amount int    `json:"amount",string`
+}

@@ -39,15 +39,11 @@ func hashPassword(password string) (string, error) {
 }
 
 func createUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
-	var req internal.CreateUserRequest
-	dec := json.NewDecoder(r.Body)
-	dec.DisallowUnknownFields()
-
-	if err := dec.Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+	req, err := ReadJSON[internal.CreateUserRequest](w, r)
+	if err != nil {
 		return
 	}
-	defer r.Body.Close()
+
 	hashedPass, err := hashPassword(req.Pass)
 	if (err != nil) {
 		http.Error(w, err.Error(), http.StatusBadRequest)

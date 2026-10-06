@@ -13,7 +13,7 @@ func createTable(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS customer (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uid TEXT UNIQUE NOT NULL,
-		accountValue INTEGER NOT NULL,
+		accountValue INTEGER NOT NULL CHECK (accountValue >= 0),
 		customerName TEXT UNIQUE NOT NULL
 	);`
 
