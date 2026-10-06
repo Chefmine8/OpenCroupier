@@ -25,10 +25,10 @@ func newClaims(uid string, userName string) *internal.Claims {
 func NewJWT(uid string, userName string) (string, error) {
 	claims := newClaims(uid, userName)
 
-	jwtKey := env.GetEnvVariable("JWTKEY", "ERROR")
-	if jwtKey == "ERROR" || jwtKey == "" {
+	JwtKey := env.GetEnvVariable("JWTKEY", "ERROR")
+	if JwtKey == "ERROR" || JwtKey == "" {
 		panic("JWTKEY ERROR")
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(jwtKey))
+	return token.SignedString([]byte(JwtKey))
 }
