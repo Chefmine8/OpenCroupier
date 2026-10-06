@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	middleware2 "github.com/Chefmine8/OpenCroupier/internal/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -29,10 +30,19 @@ func NewApi(db *sql.DB) *chi.Mux {
 		root(w)
 	})
 
-	r.Route("/api/gestion", func(r chi.Router) {
-		r.Get("/accountValue/{id}", func(w http.ResponseWriter, r *http.Request) {
-			accountValue(w, r)
+	r.Group(func(protected chi.Router) {
+		protected.Use(middleware2.AuthMiddleware)
+		protected.Route("/api/gestion", func(r chi.Router) {
+			r.Post("/deposit", func(w http.ResponseWriter, r *http.Request) {
+				//deposit(db, w, r)
+			})
+			r.Post("/withdraw", func(w http.ResponseWriter, r *http.Request) {
+				//withdraw(db, w, r)
+			})
 		})
+	})
+	r.Get("/api/gestion/accountValue/{id}", func(w http.ResponseWriter, r *http.Request) {
+		accountValue(w, r)
 	})
 
 	//Account Creation
@@ -46,10 +56,8 @@ func NewApi(db *sql.DB) *chi.Mux {
 	})
 
 	//Account Creation
-	r.Route("/api/auth", func(r chi.Router) {
-		r.Get("/userLogin", func(w http.ResponseWriter, r *http.Request) {
-			login(db, w, r)
-		})
+	r.Post("/api/auth/userLogin", func(w http.ResponseWriter, r *http.Request) {
+		login(db, w, r)
 	})
 
 	return r
