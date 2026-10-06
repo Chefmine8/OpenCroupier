@@ -14,7 +14,7 @@ func createTable(db *sql.DB) {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uid TEXT UNIQUE NOT NULL,
 		accountValue INTEGER NOT NULL,
-		customerName TEXT NOT NULL
+		customerName TEXT UNIQUE NOT NULL
 	);`
 
 	if _, err := db.Exec(creerTableSQL); err != nil {
@@ -25,7 +25,7 @@ func createTable(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS user (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uid TEXT UNIQUE NOT NULL,
-		userName TEXT NOT NULL,
+		userName TEXT UNIQUE NOT NULL,
 		password TEXT NOT NULL
 	);`
 
