@@ -45,5 +45,12 @@ func NewApi(db *sql.DB) *chi.Mux {
 		})
 	})
 
+	//Account Creation
+	r.Route("/api/auth", func(r chi.Router) {
+		r.Get("/userLogin", func(w http.ResponseWriter, r *http.Request) {
+			login(db, w, r)
+		})
+	})
+
 	return r
 }

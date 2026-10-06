@@ -8,6 +8,7 @@ import (
 
 	"github.com/Chefmine8/OpenCroupier/internal"
 	sqlite "github.com/Chefmine8/OpenCroupier/internal/sql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func createCustomer(db *sql.DB, w http.ResponseWriter, r *http.Request) {
@@ -29,6 +30,14 @@ func createCustomer(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
+}
+
 func createUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var req internal.CreateUserRequest
 	dec := json.NewDecoder(r.Body)
@@ -39,8 +48,12 @@ func createUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+	hashedPass, err := hashPassword(req.Pass)
+	if (err != nil) {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
-	lastID := sqlite.AddUser(db, req.UID, req.UserName, req.Pass)
+	lastID := sqlite.AddUser(db, req.UID, req.UserName, hashedPass)
 	if lastID == 0 {
 		w.Write([]byte("User already exist"))
 	} else {
