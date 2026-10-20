@@ -14,7 +14,7 @@ import (
 /* Aux func */
 // Money aux
 func isValideAmount(req internal.MoneyChange, db *sql.DB, w http.ResponseWriter) int {
-	money := sqlite.MoneyChange(req.Amount, req.UID, db)
+	money := sqlite.MoneyChange(req.Amount, req.UID, db, req.UserUID)
 	if money == -1 {
 		http.Error(w, "Invalid amount", http.StatusBadRequest)
 		return -1

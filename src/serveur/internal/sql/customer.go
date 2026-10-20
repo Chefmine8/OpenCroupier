@@ -17,7 +17,7 @@ func CustomerValue(uid string, db *sql.DB) int {
 	return accountValue
 }
 
-func MoneyChange(value int, uid string, db *sql.DB) int {
+func MoneyChange(value int, uid string, db *sql.DB, userUID string) int {
 	currentMoney := CustomerValue(uid, db)
 	if currentMoney == -1 {
 		return -1
@@ -29,7 +29,12 @@ func MoneyChange(value int, uid string, db *sql.DB) int {
 
 	_, err := db.Exec("UPDATE customer SET accountValue = ? WHERE uid = ?", money, uid)
 	if err != nil {
-		log.Fatalf("QueryRow Error : %v", err)
+		log.Printf("QueryRow Error : %v", err)
+		return -1
+	}
+	is_valid := AddTransaction(db, uid, userUID, money)
+	if is_valid == -1 {
+		log.Printf("AddTransaction Error : %v", is_valid)
 		return -1
 	}
 

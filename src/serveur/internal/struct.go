@@ -41,6 +41,7 @@ type Claims struct {
 
 // Déposite / Withdraw
 type MoneyChange struct {
-	UID    string `json:"uid"`
-	Amount int    `json:"amount",string`
+	UID     string `json:"uid"`
+	UserUID string `json:"userUid"`
+	Amount  int    `json:"amount",string`
 }

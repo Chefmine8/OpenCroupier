@@ -23,7 +23,9 @@ func createCustomer(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	lastID := sqlite.AddCustomer(db, req.Name, req.UID)
-	if lastID == 0 {
+	if lastID == -1 {
+		http.Error(w, "Insertion customer error", http.StatusInternalServerError)
+	} else if lastID == 0 {
 		w.Write([]byte("Customer already exist"))
 	} else {
 		w.Write([]byte(fmt.Sprintf("Customer insert with %d ID\n", lastID)))
@@ -45,12 +47,14 @@ func createUser(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashedPass, err := hashPassword(req.Pass)
-	if (err != nil) {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 	lastID := sqlite.AddUser(db, req.UID, req.UserName, hashedPass)
-	if lastID == 0 {
+	if lastID == -1 {
+		http.Error(w, "Insertion customer error", http.StatusInternalServerError)
+	} else if lastID == 0 {
 		w.Write([]byte("User already exist"))
 	} else {
 		w.Write([]byte(fmt.Sprintf("User insert with %d ID\n", lastID)))
