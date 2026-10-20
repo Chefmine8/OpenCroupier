@@ -34,24 +34,27 @@ func NewApi(db *sql.DB) *chi.Mux {
 		protected.Use(middleware2.AuthMiddleware)
 		protected.Route("/api/gestion", func(r chi.Router) {
 			r.Post("/deposit", func(w http.ResponseWriter, r *http.Request) {
-				//deposit(db, w, r)
+				deposit(db, w, r)
 			})
 			r.Post("/withdraw", func(w http.ResponseWriter, r *http.Request) {
-				//withdraw(db, w, r)
+				withdraw(db, w, r)
 			})
 		})
 	})
 	r.Get("/api/gestion/accountValue/{id}", func(w http.ResponseWriter, r *http.Request) {
-		accountValue(w, r)
+		accountValue(db, w, r)
 	})
 
 	//Account Creation
-	r.Route("/api/create", func(r chi.Router) {
-		r.Get("/createCustomer", func(w http.ResponseWriter, r *http.Request) {
-			createCustomer(db, w, r)
-		})
-		r.Get("/createUser", func(w http.ResponseWriter, r *http.Request) {
-			createUser(db, w, r)
+	r.Group(func(protected chi.Router) {
+		protected.Use(middleware2.AuthMiddleware)
+		protected.Route("/api/create", func(r chi.Router) {
+			r.Post("/createCustomer", func(w http.ResponseWriter, r *http.Request) {
+				createCustomer(db, w, r)
+			})
+			r.Post("/createUser", func(w http.ResponseWriter, r *http.Request) {
+				createUser(db, w, r)
+			})
 		})
 	})
 

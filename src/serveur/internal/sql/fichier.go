@@ -13,10 +13,9 @@ func createTable(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS customer (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uid TEXT UNIQUE NOT NULL,
-		accountValue INTEGER NOT NULL,
+		accountValue INTEGER NOT NULL CHECK (accountValue >= 0),
 		customerName TEXT UNIQUE NOT NULL
 	);`
-
 	if _, err := db.Exec(creerTableSQL); err != nil {
 		log.Fatalf("Creation customer table error : %v", err)
 	}
@@ -28,9 +27,23 @@ func createTable(db *sql.DB) {
 		userName TEXT UNIQUE NOT NULL,
 		password TEXT NOT NULL
 	);`
-
 	if _, err := db.Exec(creerTableSQL); err != nil {
 		log.Fatalf("Creation user table error : %v", err)
+	}
+
+	creerTableSQL = `
+	CREATE TABLE IF NOT EXISTS transactions (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		customer_uid TEXT NOT NULL,
+		user_uid TEXT NOT NULL,
+		amount INTEGER NOT NULL,
+		balance_after INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (customer_uid) REFERENCES customer(uid),
+		FOREIGN KEY (user_uid) REFERENCES user(uid)
+	)`
+	if _, err := db.Exec(creerTableSQL); err != nil {
+		log.Fatalf("Creation transactions table error : %v", err)
 	}
 }
 
